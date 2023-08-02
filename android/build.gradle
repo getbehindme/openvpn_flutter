@@ -46,5 +46,5 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.getbehindme:openvpn_library:version_1.0.0'
+    implementation 'com.github.getbehindme:openvpn_library:master'
 }
