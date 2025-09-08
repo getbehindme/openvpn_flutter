@@ -1,4 +1,4 @@
-package id.laskarmedia.openvpn_flutter_example
+package me.getbehind.testApp
 
 import io.flutter.embedding.android.FlutterActivity
 import id.laskarmedia.openvpn_flutter.OpenVPNFlutterPlugin

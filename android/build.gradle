@@ -9,18 +9,19 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.4.2'
+        classpath 'com.android.tools.build:gradle:8.3.0'
     }
 }
 
 rootProject.allprojects {
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
+
     }
 }
-
 
 allprojects {
     repositories {
@@ -47,5 +48,5 @@ android {
 }
 
 dependencies {
-    implementation 'com.github.nizwar:openvpn_library:b3941ef040'
+    implementation "me.getbehind.vpn:openvpn_library:1.0.0"
 }
