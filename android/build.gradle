@@ -1,52 +1,28 @@
-group 'id.laskarmedia.openvpn_flutter'
-version '1.0'
-
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.3.0'
-    }
-}
-
-rootProject.allprojects {
-    repositories {
-        mavenLocal()
-        google()
-        mavenCentral()
-        maven { url 'https://jitpack.io' }
-
-    }
-}
-
-allprojects {
-    repositories {
-        mavenLocal()
-        mavenCentral()
-        maven { url "https://jitpack.io" }
-    }
-}
-
 apply plugin: 'com.android.library'
 
 android {
-    namespace = 'id.laskarmedia.openvpn_flutter'
-    compileSdkVersion 34
+  namespace 'id.laskarmedia.openvpn_flutter'
+  compileSdkVersion 34
 
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+  defaultConfig {
+    minSdkVersion 16
+  }
 
-    defaultConfig {
-        minSdkVersion 16
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_8
+    targetCompatibility JavaVersion.VERSION_1_8
+  }
+
+  buildTypes {
+    release { }
+    debug   { matchingFallbacks = ['release'] }
+    profile {
+      initWith release
+      matchingFallbacks = ['release']
     }
+  }
 }
 
 dependencies {
-    implementation "me.getbehind.vpn:openvpn_library:1.0.0"
+  implementation 'com.github.getbehindme:openvpn_library:861973e456'
 }
