@@ -1,0 +1,29 @@
+client
+dev tun
+proto udp
+remote YOUR_VPN_SERVER_ADDRESS PORT
+resolv-retry 5
+nobind
+persist-key
+persist-tun
+verb 3
+connect-timeout 5
+remote-random
+
+<ca>
+-----BEGIN CERTIFICATE-----
+YOUR_CA_CERTIFICATE_HERE
+-----END CERTIFICATE-----
+</ca>
+
+<key>
+-----BEGIN PRIVATE KEY-----
+YOUR_PRIVATE_KEY_HERE
+-----END PRIVATE KEY-----
+</key>
+
+<cert>
+-----BEGIN CERTIFICATE-----
+YOUR_CLIENT_CERTIFICATE_HERE
+-----END CERTIFICATE-----
+</cert>

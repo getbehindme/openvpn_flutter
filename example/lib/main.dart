@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:async';
 
 import 'package:openvpn_flutter/openvpn_flutter.dart';
@@ -21,6 +22,8 @@ class _MyAppState extends State<MyApp> {
   VpnStatus? status;
   String? stage;
   bool _granted = false;
+  String? _config;
+
   @override
   void initState() {
     engine = OpenVPN(
@@ -52,13 +55,33 @@ class _MyAppState extends State<MyApp> {
         });
       },
     );
+    
+    // Load VPN configuration from file
+    _loadVpnConfig();
     super.initState();
   }
 
+  Future<void> _loadVpnConfig() async {
+    try {
+      final configString = await rootBundle.loadString('assets/vpn_config.ovpn');
+      setState(() {
+        _config = configString;
+      });
+    } catch (e) {
+      print('Error loading VPN config: $e');
+      // You might want to show an error dialog here
+    }
+  }
+
   Future<void> initPlatformState() async {
+    if (_config == null) {
+      print('VPN config not loaded yet');
+      return;
+    }
+    
     engine.connect(
-      config,
-      "USA",
+      _config!,
+      "GetBehind.Me VPN",
       username: defaultVpnUsername,
       password: defaultVpnPassword,
       certIsRequired: true,
@@ -79,11 +102,12 @@ class _MyAppState extends State<MyApp> {
             children: [
               Text(stage?.toString() ?? VPNStage.disconnected.toString()),
               Text(status?.toJson().toString() ?? ""),
+              Text(_config != null ? "Config loaded" : "Loading config..."),
               TextButton(
                 child: const Text("Start"),
-                onPressed: () {
+                onPressed: _config != null ? () {
                   initPlatformState();
-                },
+                } : null,
               ),
               TextButton(
                 child: const Text("STOP"),
@@ -112,5 +136,3 @@ class _MyAppState extends State<MyApp> {
 
 const String defaultVpnUsername = "";
 const String defaultVpnPassword = "";
-
-String get config => "HERE IS YOUR OVPN SCRIPT";

@@ -30,3 +30,9 @@
 .dart_tool/
 .packages
 build/
+
+# VPN Configuration files (contains sensitive data)
+**/assets/*.ovpn
+**/assets/vpn_config.*
+# But allow example files
+!**/assets/*.ovpn.example
