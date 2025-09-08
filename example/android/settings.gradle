@@ -1,18 +1,20 @@
 pluginManagement {
     def flutterSdkPath = {
-        def properties = new Properties()
-        file("local.properties").withInputStream { properties.load(it) }
-        def flutterSdkPath = properties.getProperty("flutter.sdk")
-        assert flutterSdkPath != null, "flutter.sdk not set in local.properties"
-        return flutterSdkPath
+        def props = new Properties()
+        file("local.properties").withInputStream { props.load(it) }
+        def path = props.getProperty("flutter.sdk")
+        assert path != null : "flutter.sdk not set in local.properties"
+        return path
     }()
 
+    // Let Flutter's build logic participate in plugin resolution
     includeBuild("$flutterSdkPath/packages/flutter_tools/gradle")
 
+    // Repositories for *Gradle plugins* only
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
     }
 }
 
@@ -22,4 +24,18 @@ plugins {
     id "org.jetbrains.kotlin.android" version "1.8.22" apply false
 }
 
-include ":app"
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    repositories {
+        google()
+        mavenCentral()
+
+        // For your JitPack AAR: com.github.getbehindme:openvpn_library:861973e456
+        maven { url "https://jitpack.io" }
+
+        // For Flutter engine artifacts (io.flutter:*), required by Flutter apps
+        maven { url "https://storage.googleapis.com/download.flutter.io" }
+    }
+}
+
+include(":app")
